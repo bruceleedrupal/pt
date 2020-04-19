@@ -1,0 +1,8 @@
+@import "~admin-lte/build/scss/AdminLTE.scss";
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/css/font-awesome';
+
+
+.login-page, .register-page {
+  height:80vh;
+}
