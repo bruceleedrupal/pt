@@ -1,0 +1,14 @@
+#!/bin/bash
+DIRECTORY=$(cd `dirname $0` && pwd)
+envfile="${DIRECTORY}/../.env"
+
+if [ -f $envfile ]; then
+   source $envfile
+   re="^mysql://(.*):(.*)@(.*):3306/(.*)\?serverVersion=(.*)$"
+   [[ $DATABASE_URL =~ $re ]] && user="${BASH_REMATCH[1]}" && password="${BASH_REMATCH[2]}" && server="${BASH_REMATCH[3]}" && database="${BASH_REMATCH[4]}"
+   mysql -u$user -p$password $database < "${DIRECTORY}/../${database}.sql"
+   #cd ${DIRECTORY}/../ && zip -P0326zmx@0117lyj "${database}.zip" "${database}.sql"
+   #rm "${DIRECTORY}/../${database}.sql"
+else 
+   echo '未找到配置文件'
+fi

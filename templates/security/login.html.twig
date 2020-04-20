@@ -13,11 +13,15 @@
     <div class="card-body login-card-body">
 
 {% if error %}
-    <div>{{ dump(error) }}</div>
+     <div class="alert alert-warning alert-dismissible fade show">{{ error.message|trans  }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
+           </button>
+    </div> 
 {% endif %}
       <form method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="手机号" name="_mobile">
+          <input type="text" class="form-control" placeholder="手机号" name="_mobile" required="required" pattern="^1\d{10,10}$">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-envelope"></span>
@@ -25,7 +29,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="密码" name="_password">
+          <input type="password" class="form-control" placeholder="密码" name="_password" required="required" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-lock"></span>
