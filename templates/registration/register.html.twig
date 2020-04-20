@@ -1,0 +1,55 @@
+{% extends '_base/adminlte.html.twig' %}
+
+{% block title %}注册|i校生活圈{% endblock %}
+
+{% block body %}
+
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    i校生活圈
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+
+
+
+    {{ form_start(registrationForm) }}
+     <form method="post">
+        <div class="input-group mb-3">
+              {{ form_widget(registrationForm.mobile) }}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-mobile fa-lg"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          {{ form_widget(registrationForm.password) }}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">        
+          <!-- /.col -->
+         <div class="col-6">              
+         <a href="{{ path('login') }}" class="text-center">登录</a>&nbsp;
+        </div>
+          <div class="col-6 ">
+            <button type="submit" class="btn btn-success btn-block">注册代理商</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      {{ form_end(registrationForm) }}
+
+
+
+  </div>
+  </div>
+  </div>
+  </body>
+
+{% endblock %}

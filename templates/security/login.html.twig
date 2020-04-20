@@ -1,0 +1,57 @@
+{% extends '_base/adminlte.html.twig' %}
+
+{% block title %}登录|i校生活圈{% endblock %}
+
+{% block body %}
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    i校生活圈
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+
+{% if error %}
+    <div>{{ dump(error) }}</div>
+{% endif %}
+      <form method="post">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="手机号" name="_mobile">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="密码" name="_password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+          <!-- /.col -->
+         <div class="col-8">              
+         <a href="{{ path('register') }}" class="text-center">注册</a>&nbsp;
+        </div>
+          <div class="col-4 ">
+            <button type="submit" class="btn btn-success btn-block">登录</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+
+
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+</body>
+{% endblock %}
