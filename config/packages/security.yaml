@@ -30,6 +30,9 @@ security:
                 # The page users are redirect to when there is no previous page stored in the
                 # session (for example when the users access directly to the login page).
                 default_target_path: student 
+            logout:
+                path:   logout
+                target: student  
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

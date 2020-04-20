@@ -3,12 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"mobile"}, message="There is already an account with this mobile")
  */
 class User implements UserInterface
 {
@@ -24,18 +22,17 @@ class User implements UserInterface
      */
     private $roles = [];
 
-
-    /**
-     * @ORM\Column(type="string", length=255,unique=true,nullable=false)        
-     */
-    private $mobile;
-
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
+
+
+    /**
+     * @ORM\Column(type="string", length=255,unique=true,nullable=false)   
+     */
+    private $mobile;
 
     public function getId(): ?string
     {
@@ -121,4 +118,6 @@ class User implements UserInterface
 
         return $this;
     }
+
+    
 }

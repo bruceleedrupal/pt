@@ -1,6 +1,8 @@
 @import "~admin-lte/build/scss/AdminLTE.scss";
+@import "~admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.css";
 $fa-font-path: "~font-awesome/fonts";
 @import '~font-awesome/css/font-awesome';
+
 
 html {
  font-size:14px;

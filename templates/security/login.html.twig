@@ -1,4 +1,4 @@
-{% extends '_base/adminlte.html.twig' %}
+{% extends '_base/lte.html.twig' %}
 
 {% block title %}登录|i校生活圈{% endblock %}
 
@@ -40,7 +40,7 @@
           <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
           <!-- /.col -->
          <div class="col-8">              
-         <a href="{{ path('register') }}" class="text-center">注册</a>&nbsp;
+         <a href="{{ path('register') }}" class="text-center">注册代理商</a>&nbsp;
         </div>
           <div class="col-4 ">
             <button type="submit" class="btn btn-success btn-block">登录</button>

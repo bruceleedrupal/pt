@@ -7,10 +7,9 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../scss/app.scss';
-
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-
 import $ from 'jquery';
-import Alert from 'bootstrap/js/src/alert.js';
-
 global.$ = global.jQuery = $;
+require('bootstrap');
+require('admin-lte');
+require('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js');
+import Alert from 'bootstrap/js/src/alert.js';
