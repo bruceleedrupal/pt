@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
 
-
-class StudentController extends AbstractController
+/**
+ * @Route("/admin")
+ * @IsGranted("ROLE_ADMIN")
+ */
+class AdminController extends AbstractController
 {
     protected $security;
 
@@ -19,15 +23,12 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/student", name="student")
+     * @Route("/", name="admin")
      */
     public function index()
-    {
-        $user =  $this->security->getUser();
-     
-    
-        return $this->render('student/index.html.twig', [
-            'controller_name' => 'StudentController',
+    { 
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
         ]);
     }
 }

@@ -1,0 +1,28 @@
+{% extends '@KnpMenu/menu.html.twig' %}
+
+
+
+{% set options = options|merge({"allow_safe_labels":true,'currentClass':'active','ancestorClass':'menu-open'}) %}
+
+
+{#override #}
+{% block linkElement %}
+
+
+{%- set classes = item.linkAttribute('class') is not empty ? [item.linkAttribute('class')] : [] %}
+
+{%- if matcher.isCurrent(item) %}
+        {%- set classes = classes|merge([options.currentClass]) %}
+    {%- elseif matcher.isAncestor(item, options.matchingDepth) %}
+        {%- set classes = classes|merge([options.ancestorClass,options.currentClass]) %}
+{%- endif %}
+
+{%- set attributes = item.linkAttributes %}
+    {%- if classes is not empty %}
+        {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+{%- endif %}
+
+{% import _self as knp_menu %}
+<a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }}>{{ block('label') }}</a>{% endblock %}
+{#override #}
+

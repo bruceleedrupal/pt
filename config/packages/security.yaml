@@ -29,10 +29,10 @@ security:
                 username_parameter: _mobile
                 # The page users are redirect to when there is no previous page stored in the
                 # session (for example when the users access directly to the login page).
-                default_target_path: student 
+                default_target_path: redirect 
             logout:
                 path:   logout
-                target: student  
+                target: login  
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

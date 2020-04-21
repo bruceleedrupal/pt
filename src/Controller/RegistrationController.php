@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,14 +17,24 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,UserRepository $userRepository): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-          
+             $mobile =$user->getMobile();
+             $existUser = $userRepository->findOneBy(['mobile'=>$mobile]);
+            if($existUser) {
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'error' =>'该手机号已注册'
+                ]);
+            }
+
+
+
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
