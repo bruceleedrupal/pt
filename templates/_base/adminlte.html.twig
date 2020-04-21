@@ -1,6 +1,10 @@
 {% extends '_base/lte.html.twig' %}
+{% import 'macros.html.twig' as macros %}
 {% block body %}
 <body class="hold-transition sidebar-mini layout-fixed">
+{%  if app.session.flashbag.peekAll|length>0 %}         
+    {{ macros.messages() }} 
+ {% endif %}
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -167,7 +171,10 @@
 
     <!-- Main content -->
     <section class="content">
-     　<div class="container-fluid"></div>　　　　
+     　<div class="container-fluid">
+           {% block content %}
+           {% endblock %}
+         </div>　　　　
     </section>
     <!-- /.content -->
   </div>

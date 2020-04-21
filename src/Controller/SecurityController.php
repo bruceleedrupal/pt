@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Form\ChangePasswordByPassword;
 
 class SecurityController extends AbstractController
 {
@@ -54,10 +57,44 @@ class SecurityController extends AbstractController
         else  if($this->security->isGranted('ROLE_AGENT'))
            return  $this->redirectToRoute('agent');
         else
-        return  new Response('');
-        
+        return  new Response('');        
     }
 
-
-     
+     /**
+     * @Route("/changepassword/bypassword", name="changepassword_bypassword")
+     *  @IsGranted("ROLE_USER")
+     */
+    public function changepassword_bypassword(Request $request)
+    {   
+        $form = $this->createForm(ChangePasswordByPassword::class);
+        $form->handleRequest($request);
+        
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $checkPassword = $form->get('checkPassword')->getData();
+            $newPassword = $form->get('newPassword')->getData();
+            $user = $this->getUser();
+            if($this->passwordEncoder->isPasswordValid($user, $checkPassword)){
+                $user->setPassword(
+                    $this->passwordEncoder->encodePassword(
+                        $user,
+                        $newPassword
+                )
+            );
+            
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('warning','Your password has been updated');
+            return $this->redirectToRoute('my_user');
+            } else {
+                $form->addError(new FormError('You password is not correct'));
+                return $this->render('security/changePassword/byPassword.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }            
+        }
+        else
+            return $this->render('security/changePassword/byPassword.html.twig', [
+                'form' => $form->createView(),
+         ]);
+    }
 }

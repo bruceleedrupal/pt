@@ -34,7 +34,7 @@ class MenuBuilder
         ]);
 
         $menu['user']->addChild('admin', [
-            'route' => 'admin' ,
+            'route' => 'changepassword_bypassword' ,
             'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>修改密码",
             'linkAttributes'=>['class'=>'nav-link'],
             'attributes'=>[

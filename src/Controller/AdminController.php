@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
-
+use Symfony\Component\HttpFoundation\Request;
+use App\Form\ChangePasswordByPassword;
 /**
  * @Route("/admin")
  * @IsGranted("ROLE_ADMIN")
@@ -31,4 +32,6 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
         ]);
     }
+
+
 }
