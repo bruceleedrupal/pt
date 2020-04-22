@@ -7,10 +7,34 @@ $fa-font-path: "~font-awesome/fonts";
 html {
  font-size:14px;
 }
-.login-page, .register-page {
+.login-page, .register-page,.front-page {
   height:80vh;
+  align-items: center;
+  background: #e9ecef;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 a {
  color:#333;
+}
+
+#flashes {
+ width:360px;
+}
+
+.brand-link .brand-image {
+ float:none;
+}
+.content-header {
+    padding: 15px 0.5rem 0;
+}
+.page-link {
+   color:#333;
+}
+
+.page-item.active .page-link { 
+    background-color: #16a2b8;
+    border-color: #16a2b8;
 }

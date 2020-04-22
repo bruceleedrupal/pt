@@ -22,7 +22,7 @@ class MenuBuilder
         
         $menu->addChild('user',[
             'uri'=>'#',
-            'label' =>'<i class="nav-icon fa fa-tachometer-alt"></i>用户管理<i class="right fa fa-angle-left"></i>',
+            'label' =>'<i class="nav-icon fa fa-tachometer-alt"></i>代理商管理<i class="right fa fa-angle-left"></i>',
             'extras' => array('safe_label' => true),
             'childrenAttributes'=>[
                 'class'=>'nav nav-treeview',               
@@ -34,8 +34,8 @@ class MenuBuilder
         ]);
 
         $menu['user']->addChild('admin', [
-            'route' => 'changepassword_bypassword' ,
-            'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>修改密码",
+            'route' => 'admin_user_index' ,
+            'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>所有代理商",
             'linkAttributes'=>['class'=>'nav-link'],
             'attributes'=>[
                 'class'=>'nav-item',

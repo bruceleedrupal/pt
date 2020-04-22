@@ -1,12 +1,31 @@
+{% import 'macros.html.twig' as macros %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ title }}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+  
+</head>
+
+{% block body %}
+<body class="hold-transition front-page">
+     {%  if app.session.flashbag.peekAll|length>0 %}         
+            {{ macros.messages() }} 
+        {% endif %}    
+    {% block content %}         
+    {% endblock %}
+</body>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('build/runtime.js') }}"></script>
+<script src="{{ asset('build/app.js') }}"></script>
+   {% endblock %}
 </html>

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangePasswordByPassword extends AbstractType
 {
@@ -27,18 +28,22 @@ class ChangePasswordByPassword extends AbstractType
         $builder
         ->add('checkPassword',PasswordType::class,
             ["attr"=>[
-                'placeHolder'=>"Original Password"
-            ]
-        ])
-       
+                'placeHolder'=>"原密码",
+                'class'=>'form-control',
+                ],
+               'constraints' => [
+                new NotBlank([
+                    'message' => '请输入手机号'
+               ])
+               ]
+         ]) 
         ->add('newPassword',PasswordType::class,
             ["attr"=>[
-                'placeHolder'=>"New Password"
+                'placeHolder'=>"新密码",
+                'class'=>'form-control',
             ]
         ])
-        ->add('submit',SubmitType::class,[
-            'label'=>'Submit'
-        ])
+   
         ;
     }
 

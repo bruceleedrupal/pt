@@ -10,16 +10,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Form\ChangePasswordByPassword;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
 
     protected $security;
+    private $passwordEncoder;
 
 
-    public function __construct(Security $security)
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,Security $security,TranslatorInterface  $translator)
     {        
         $this->security = $security;    
+        $this->translator = $translator;
+        $this->passwordEncoder = $passwordEncoder;
         
     }
 
@@ -68,7 +79,7 @@ class SecurityController extends AbstractController
     {   
         $form = $this->createForm(ChangePasswordByPassword::class);
         $form->handleRequest($request);
-        
+        $message = '';
         
         if ($form->isSubmitted() && $form->isValid()) {
             $checkPassword = $form->get('checkPassword')->getData();
@@ -83,18 +94,16 @@ class SecurityController extends AbstractController
             );
             
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('warning','Your password has been updated');
-            return $this->redirectToRoute('my_user');
-            } else {
-                $form->addError(new FormError('You password is not correct'));
-                return $this->render('security/changePassword/byPassword.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            $this->addFlash('warning',$this->translator ->trans('Your password has been updated'));
+            return $this->redirectToRoute('redirect');           
+            } else {                       
+              $message =$this->translator ->trans('You password is not correct');                
             }            
         }
-        else
-            return $this->render('security/changePassword/byPassword.html.twig', [
-                'form' => $form->createView(),
-         ]);
-    }
+        
+        return $this->render('security/changePassword/byPassword.html.twig', [
+            'form' => $form->createView(),
+            'message'=>$message,
+        ]);
+   }
 }

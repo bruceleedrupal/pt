@@ -1,0 +1,33 @@
+{% extends '_base/adminlte.html.twig' %}
+
+{% set  title ='代理商'  %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+               <th>手机号</th>
+               <th>创建时间</th>
+                <th>最后登录</th>                                
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>      
+            　<td><a href="tel:{{ user.mobile }}">{{ user.mobile }}</a></td>     
+                <td>{{ user.created ? user.created|date('Y-m-d') : '' }}</td>
+                <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:i:s') : '' }}</td>             
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">无记录</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+    {{ knp_pagination_render(users) }}
+</div>
+    </div>
+{% endblock %}
