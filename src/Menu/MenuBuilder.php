@@ -81,6 +81,9 @@ class MenuBuilder
                 [
                     'route' => 'agent_school_new'                    
                 ],
+                [
+                    'route' => 'agent_school_edit'                    
+                ],
             ]        
             ),
         ]);

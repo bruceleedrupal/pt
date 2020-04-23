@@ -1,4 +1,18 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="card card-info">
+              <!-- /.card-header -->
+              <!-- form start -->
+              {{ form_start(form) }}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">名称</label>
+                    {{ form_widget(form.title) }}
+                  </div>                                    
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-info">保存</button>
+                  <a href="{{ path('agent_school_index') }}" class='btn btn-success ml-2'>返回</a>
+                </div>
+           {{ form_end(form) }}
+ </div>

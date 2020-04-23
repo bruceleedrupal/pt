@@ -38,6 +38,7 @@
         </div>
         <div class="row">
           <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+          <input type="hidden" name="_target_path" value="{{  path('redirect') }}"/>
           <!-- /.col -->
          <div class="col-8">              
          <a href="{{ path('register') }}" class="text-center">注册代理商</a>&nbsp;

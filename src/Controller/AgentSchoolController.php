@@ -32,9 +32,12 @@ class AgentSchoolController extends AbstractController
      */
     public function index(SchoolRepository $schoolRepository): Response
     {
-        
+        $qb =$schoolRepository->findAllSchoolQueryBuilder();
+        $qb->andWhere('s.agent = :agent')->setParameter('agent', $this->getUser());        
+        $schools = $qb->getQuery()->execute();
+
         return $this->render('agent/school/index.html.twig', [
-            'schools' => $schoolRepository->findAll(),
+            'schools' => $schools,
         ]);
     }
 
@@ -78,6 +81,9 @@ class AgentSchoolController extends AbstractController
      */
     public function edit(Request $request, School $school): Response
     {
+      
+        $this->denyAccessUnlessGranted('edit',$school);
+
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
 
@@ -98,6 +104,8 @@ class AgentSchoolController extends AbstractController
      */
     public function delete(Request $request, School $school): Response
     {
+        $this->denyAccessUnlessGranted('delete',$school);
+
         if ($this->isCsrfTokenValid('delete'.$school->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($school);

@@ -19,6 +19,11 @@ class SchoolRepository extends ServiceEntityRepository
         parent::__construct($registry, School::class);
     }
 
+
+    public function findAllSchoolQueryBuilder(){
+          return $this->createQueryBuilder('s');          
+    }
+
     // /**
     //  * @return School[] Returns an array of School objects
     //  */

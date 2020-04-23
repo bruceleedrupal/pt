@@ -11,7 +11,7 @@
                 <th>学校(校区)</th>
                 <th>佣金(比例)</th>
                 <th>状态</th>
-                <th>actions</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +20,8 @@
                 <td>{{ school.title }}</td>
                 <td>{{ school.commission }}</td>
                 <td>{{ school.status ? '已审核' :'待审核'}}</td>
-                <td>
-                    <a href="{{ path('agent_school_show', {'id': school.id}) }}">show</a>
-                    <a href="{{ path('agent_school_edit', {'id': school.id}) }}">edit</a>
+                <td>                    
+                    <a href="{{ path('agent_school_edit', {'id': school.id}) }}" class='btn btn-info btn-sm'>修改</a>
                 </td>
             </tr>
         {% else %}
