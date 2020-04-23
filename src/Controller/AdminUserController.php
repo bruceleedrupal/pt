@@ -29,7 +29,7 @@ class AdminUserController extends AbstractController
      */
     public function index(UserRepository $userRepository,Request $request): Response
     {
-        $qb = $userRepository->findAllQueryBuilder();
+        $qb = $userRepository->findAllAgentQueryBuilder();
 
         $users = $this->paginator->paginate(
             // Doctrine Query, not results

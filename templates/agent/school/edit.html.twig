@@ -1,0 +1,12 @@
+{% extends 'agent/base.html.twig' %}
+
+{% set  title ='编辑学校(校区' %}
+
+{% block content %}   
+
+    {{ include('agent/school/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('agent_school_index') }}">back to list</a>
+
+    {{ include('agent/school/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'agent/base.html.twig' %}
+
+{% set  title ='我的学校(校区)' %}
+
+{% block content %}
+    
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>学校(校区)</th>
+                <th>佣金(比例)</th>
+                <th>状态</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for school in schools %} 
+            <tr>                
+                <td>{{ school.title }}</td>
+                <td>{{ school.commission }}</td>
+                <td>{{ school.status ? '已审核' :'待审核'}}</td>
+                <td>
+                    <a href="{{ path('agent_school_show', {'id': school.id}) }}">show</a>
+                    <a href="{{ path('agent_school_edit', {'id': school.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">还未添加学校</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_school_new') }}"  class="btn btn-success">添加</a>
+    </div>
+{% endblock %}

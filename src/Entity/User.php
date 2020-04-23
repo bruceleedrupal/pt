@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -43,6 +45,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255,unique=true,nullable=false)   
      */
     private $mobile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="agent")
+     */
+    private $schools;
+
+    public function __construct()
+    {
+        $this->schools = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -149,6 +161,37 @@ class User implements UserInterface
     public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|School[]
+     */
+    public function getSchools(): Collection
+    {
+        return $this->schools;
+    }
+
+    public function addSchool(School $school): self
+    {
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
+            $school->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchool(School $school): self
+    {
+        if ($this->schools->contains($school)) {
+            $this->schools->removeElement($school);
+            // set the owning side to null (unless already changed)
+            if ($school->getAgent() === $this) {
+                $school->setAgent(null);
+            }
+        }
 
         return $this;
     }
