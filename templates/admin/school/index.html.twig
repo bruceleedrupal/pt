@@ -1,9 +1,6 @@
 {% extends 'admin/base.html.twig' %}
-
 {% set  title ='我的学校(校区)' %}
-
 {% block content %}
-    
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -19,7 +16,9 @@
         {% for school in schools %} 
             <tr>                
                 <td>{{ school.title }}</td>
-                <td><a href="tel:{{ school.agent.mobile }}">{{ school.agent.mobile }}</a></td>
+                <td><a href="tel:{{ school.agent.mobile }}">{{ school.agent.username }}</a>
+                {% if not school.agent.note %} <a  href="{{ path('admin_user_edit',{'id':school.agent.id}) }}" class="btn btn-info btn-sm">备注</a> {% endif %}
+                </td>
                 <td>{{ school.commission }}</td>
                 <td>{{ school.status ? '已审核' :'待审核'}}</td>
                 <td>                    
@@ -33,6 +32,6 @@
         {% endfor %}
         </tbody>
     </table>
-    
+    <div class="navigation">{{ knp_pagination_render(schools) }}</div>
     </div>
 {% endblock %}

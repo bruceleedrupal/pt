@@ -1,6 +1,7 @@
+{% import 'macros.html.twig' as macros %}
 {% extends 'base.html.twig' %}
 
-{% block title %}注册|i校生活圈{% endblock %}
+{%  set  title = '注册|i校生活圈'  %}
 
 {% block content %}
 <div class="login-box">
@@ -20,6 +21,7 @@
            </button>
     </div> 
     {% endif %}
+    {{ macros.formErrors(form) }} 
 
         <div class="input-group mb-3">
               {{ form_widget(form.mobile) }}

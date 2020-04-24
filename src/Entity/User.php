@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -43,6 +44,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255,unique=true,nullable=false)   
+     * @Assert\Regex(
+     *     pattern="/^1\d{10,10}$/",     
+     *     message="手机号码格式不对"
+     * )     
      */
     private $mobile;
 
@@ -50,6 +55,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="agent")
      */
     private $schools;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $note;
 
     public function __construct()
     {
@@ -75,7 +85,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->mobile;
+        return (string) $this->mobile .($this->note ? ' '.$this->note:'');
     }
 
     /**
@@ -192,6 +202,18 @@ class User implements UserInterface
                 $school->setAgent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

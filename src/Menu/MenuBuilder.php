@@ -40,7 +40,13 @@ class MenuBuilder
             'attributes'=>[
                 'class'=>'nav-item',
             ],
-            'extras' => array('safe_label' => true),
+            'extras' => array('safe_label' => true,
+            'routes' => [
+                [
+                    'route' => 'admin_user_edit'                    
+                ]
+            ]
+        ),
         ]);
 
         $menu['user']->addChild('school', [
@@ -50,7 +56,15 @@ class MenuBuilder
             'attributes'=>[
                 'class'=>'nav-item',
             ],
-            'extras' => array('safe_label' => true),
+            'extras' => array(
+            'safe_label' => true,
+            'routes' => [
+                [
+                    'route' => 'admin_school_edit'                    
+                ],
+                
+            ] 
+        ),
         ]);
         
         

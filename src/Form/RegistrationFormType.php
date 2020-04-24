@@ -21,7 +21,6 @@ class RegistrationFormType extends AbstractType
                 'attr'=>[
                     'class'=>'form-control',
                     'placeholder'=>'手机号',
-                    'pattern'=>"^1\d{10,10}$"
                 ],
                 'constraints' => [
                     new NotBlank([

@@ -15,6 +15,7 @@ class SchoolType extends AbstractType
             ->add('title',NULL,[            
             "attr"=>[
                 'class'=>'form-control',
+                'placeHolder'=>'有多个校区请加上校区'
              ]
             ]);
     }

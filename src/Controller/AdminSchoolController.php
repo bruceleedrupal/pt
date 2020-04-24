@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/admin/school")
@@ -19,21 +20,29 @@ use Symfony\Component\Security\Core\Security;
 class AdminSchoolController extends AbstractController
 {
     protected $security;
+    private $paginator;  
 
-
-    public function __construct(Security $security)
+    public function __construct(Security $security,PaginatorInterface $paginator)
     {        
         $this->security = $security;    
-        
+        $this->paginator = $paginator;        
     }
 
     /**
      * @Route("/", name="admin_school_index", methods={"GET"})
      */
-    public function index(SchoolRepository $schoolRepository): Response
+    public function index(SchoolRepository $schoolRepository,Request $request): Response
     {
-        $qb =$schoolRepository->findAllSchoolQueryBuilder();       
-        $schools = $qb->getQuery()->execute();
+        $qb =$schoolRepository->findAllSchoolQueryBuilder();               
+
+        $schools = $this->paginator->paginate(
+            // Doctrine Query, not results
+            $qb->getQuery(),
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+            );
 
         return $this->render('admin/school/index.html.twig', [
             'schools' => $schools,

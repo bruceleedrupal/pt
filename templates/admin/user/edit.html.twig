@@ -1,13 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
-
-{% block body %}
-    <h1>Edit User</h1>
-
+{% set  title = '编辑用户' %}
+{% block content  %} 
     {{ include('admin/user/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_user_index') }}">back to list</a>
-
-    {{ include('admin/user/_delete_form.html.twig') }}
 {% endblock %}
