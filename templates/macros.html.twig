@@ -13,3 +13,20 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{% macro formErrors(form) %}
+    {% if not form.vars.valid %}
+    <div id="formErrors">
+        {% for child in  form.children %}
+              {%for error in child.vars.errors%}
+                   <div class="alert alert-warning alert-dismissable show">
+                    {{error.message|trans }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
+                    </button>
+                </div>
+            {% endfor %}        
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endmacro %}

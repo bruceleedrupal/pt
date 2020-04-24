@@ -1,0 +1,31 @@
+{% import 'macros.html.twig' as macros %}
+<div class="card card-info">
+              <!-- /.card-header -->
+              <!-- form start -->
+              {{ macros.formErrors(form) }} 
+              {{ form_start(form) }}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="school_title">名称</label>
+                    {{ form_widget(form.title) }}
+                  </div> 
+
+                  <div class="form-group">
+                    <label for="school_commission">佣金</label>                   
+                    {{ form_widget(form.commission) }}
+                  </div>      
+
+                  <div class="form-group">
+                    <label for="school_status">审核状态</label>
+                    {{ form_widget(form.status) }}
+                  </div>   
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-info">保存</button>
+                  <a href="{{ path('admin_school_index') }}" class='btn btn-success ml-2'>返回</a>
+                </div>
+           {{ form_end(form) }}
+ </div>

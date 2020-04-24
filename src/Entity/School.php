@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SchoolRepository")
@@ -22,8 +23,16 @@ class School
     private $title;
 
     /**
-     * @ORM\Column(type="decimal", precision=3, scale=2)
+     * @ORM\Column(type="decimal", precision=3, scale=2)     
+     * @Assert\Range(
+     *      min = 0.1,
+     *      max = 0.5,
+     *      minMessage = "You must be at least {{ limit }}   to enter",
+     *      maxMessage = "You cannot be greater than {{ limit }} to enter",
+     *      notInRangeMessage = "Commission should be between {{ min }} and {{ max }}",
+     * )
      */
+   
     private $commission;
 
     /**

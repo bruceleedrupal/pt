@@ -12,11 +12,11 @@ class SchoolType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title',NULL,[
+            ->add('title',NULL,[            
             "attr"=>[
                 'class'=>'form-control',
              ]
-            ]) ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

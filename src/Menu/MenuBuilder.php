@@ -42,6 +42,16 @@ class MenuBuilder
             ],
             'extras' => array('safe_label' => true),
         ]);
+
+        $menu['user']->addChild('school', [
+            'route' => 'admin_school_index' ,
+            'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>所有学校(校区)",
+            'linkAttributes'=>['class'=>'nav-link'],
+            'attributes'=>[
+                'class'=>'nav-item',
+            ],
+            'extras' => array('safe_label' => true),
+        ]);
         
         
         return $menu;
