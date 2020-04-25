@@ -20,7 +20,7 @@ class SchoolType extends baseSchoolType
                 "html5"=>true,
                 "attr"=>[                    
                     'class'=>'form-control',            
-                    'step'=>'any',
+                    'step'=>0.05,
                     'min'=>0.1,
                     'max'=>0.5                    
                  ]
