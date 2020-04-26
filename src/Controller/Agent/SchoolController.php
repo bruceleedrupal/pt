@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Agent;
 
 use App\Entity\School;
-use App\Form\SchoolType;
+use App\Form\Agent\SchoolType;
 use App\Repository\SchoolRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Security;
  * @Route("/agent/school")
  * @IsGranted("ROLE_AGENT")
  */
-class AgentSchoolController extends AbstractController
+class SchoolController extends AbstractController
 {
     protected $security;
 
@@ -51,8 +51,7 @@ class AgentSchoolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $school->setAgent($this->security->getUser());
-            $school->setCommission(0.20);
+            $school->setAgent($this->security->getUser());            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($school);
             $entityManager->flush();

@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Controller;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+use App\Form\ChangePasswordByPassword;
+use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Form\ChangePasswordByPassword;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SecurityController extends AbstractController
 {
@@ -106,4 +110,62 @@ class SecurityController extends AbstractController
             'message'=>$message,
         ]);
    }
+
+
+
+    /**
+     * @Route("/register", name="register")
+     */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,UserRepository $userRepository): Response
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+             $mobile =$user->getMobile();
+             $existUser = $userRepository->findOneBy(['mobile'=>$mobile]);
+            if($existUser) {
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'error' =>'该手机号已注册'
+                ]);
+            }
+
+
+
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+            $user->setRoles(['ROLE_AGENT']);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // do anything else you need here, like send an email
+            $this->_authenticateUser($user);
+
+            return $this->redirectToRoute('student');
+        }
+
+
+    
+        return $this->render('registration/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    private function _authenticateUser(User $user)
+    {
+        $providerKey = 'main';
+        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+        $this->container->get('security.token_storage')->setToken($token);
+    } 
 }

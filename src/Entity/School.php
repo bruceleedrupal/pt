@@ -46,6 +46,25 @@ class School
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="decimal", precision=3, scale=2)
+     * @Assert\Range(
+     *      min = 0.1,
+     *      max = 0.9,
+     *      minMessage = "You must be at least {{ limit }}   to enter",
+     *      maxMessage = "You cannot be greater than {{ limit }} to enter",
+     *      notInRangeMessage = "Driver Commission should be between {{ min }} and {{ max }}",
+     * )
+     */
+    private $assistantCommission;
+
+
+    public function __construct(){
+        $this->commission = 0.2;
+        $this->assistantCommission = 0.3;
+
+   }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,6 +114,18 @@ class School
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAssistantCommission(): ?string
+    {
+        return $this->assistantCommission;
+    }
+
+    public function setAssistantCommission(string $assistantCommission): self
+    {
+        $this->assistantCommission = $assistantCommission;
 
         return $this;
     }

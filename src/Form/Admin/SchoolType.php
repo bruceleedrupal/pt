@@ -6,21 +6,27 @@ use App\Entity\School;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\SchoolType  as baseSchoolType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-class SchoolType extends baseSchoolType
+
+class SchoolType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder,$options);
-        $builder            
+        $builder   
+           ->add('title',NULL,[            
+            "attr"=>[
+                'class'=>'form-control',
+                'placeHolder'=>'有多个校区请加上校区'
+             ]
+            ])         
              ->add('commission',NumberType::class,[
                 "html5"=>true,
                 "attr"=>[                    
                     'class'=>'form-control',            
-                    'step'=>0.05,
+                    'step'=>0.01,
                     'min'=>0.1,
                     'max'=>0.5                    
                  ]
@@ -36,6 +42,14 @@ class SchoolType extends baseSchoolType
             ])
             
             ;
+    }
+
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => School::class,
+        ]);
     }
 
 

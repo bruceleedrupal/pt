@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -16,7 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
  * @Route("/admin/user")
  * @IsGranted("ROLE_ADMIN")
  */
-class AdminUserController extends AbstractController
+class UserController extends AbstractController
 {
     private $paginator;  
 

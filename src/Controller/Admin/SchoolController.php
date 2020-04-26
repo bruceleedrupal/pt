@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\School;
 use App\Form\Admin\SchoolType;
@@ -17,7 +17,7 @@ use Knp\Component\Pager\PaginatorInterface;
  * @Route("/admin/school")
  * @IsGranted("ROLE_ADMIN")
  */
-class AdminSchoolController extends AbstractController
+class SchoolController extends AbstractController
 {
     protected $security;
     private $paginator;  
@@ -71,10 +71,7 @@ class AdminSchoolController extends AbstractController
 
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
-
-        $errors = $form->get('commission')->getErrors();
-     
-
+       
 
         if ($form->isSubmitted() && $form->isValid()) {
          
