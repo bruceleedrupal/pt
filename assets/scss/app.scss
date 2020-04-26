@@ -38,3 +38,12 @@ a {
 .table-responsive {
     word-break: keep-all;
 }
+
+select {
+    border-radius: 2px;
+    border: 1px solid #eee;
+    color: #333;
+    padding:3px;
+    line-height:28px;
+    background: white;
+ }

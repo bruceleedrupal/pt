@@ -6,6 +6,7 @@ use App\Form\ChangePasswordByPassword;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\SchoolSessionStorage;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+
 class SecurityController extends AbstractController
 {
 
     protected $security;
     private $passwordEncoder;
+    private $schoolSessionStorage;
 
 
     /**
@@ -30,11 +33,12 @@ class SecurityController extends AbstractController
     private $translator;
 
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder,Security $security,TranslatorInterface  $translator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,Security $security,TranslatorInterface  $translator,SchoolSessionStorage $schoolSessionStorage)
     {        
         $this->security = $security;    
         $this->translator = $translator;
         $this->passwordEncoder = $passwordEncoder;
+        $this->schoolSessionStorage = $schoolSessionStorage;
         
     }
 
@@ -69,8 +73,11 @@ class SecurityController extends AbstractController
     {
         if($this->security->isGranted('ROLE_ADMIN'))
            return  $this->redirectToRoute('admin');
-        else  if($this->security->isGranted('ROLE_AGENT'))
-           return  $this->redirectToRoute('agent');
+        else  if($this->security->isGranted('ROLE_AGENT')) {
+            $this->schoolSessionStorage->validateSchool();
+            return  $this->redirectToRoute('agent');
+
+        }   
         else
         return  new Response('');        
     }
@@ -167,5 +174,6 @@ class SecurityController extends AbstractController
         $providerKey = 'main';
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
         $this->container->get('security.token_storage')->setToken($token);
+        $this->schoolSessionStorage->validateSchool();
     } 
 }

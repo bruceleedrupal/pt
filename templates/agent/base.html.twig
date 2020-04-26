@@ -1,20 +1,14 @@
 {% extends '_base/adminlte.html.twig' %}
-   {% set homelink = path('agent') %}
+{% set homelink = path('agent') %}
 
-    {% block navbar %}
+ {% block navbar %}
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+      </li>      
     </ul>
+       {{ render(controller('App\\Controller\\SchoolSessionController::selectBlock')) }}
 {% endblock %}
-
-  {% block sidebar %}
+{% block sidebar %}
           {{ knp_menu_render('agent_menu') }}
 {% endblock %}
