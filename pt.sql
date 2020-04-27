@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `package_address`
+--
+
+DROP TABLE IF EXISTS `package_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `package_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `school_id` int(11) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_82150A0DC32A47EE` (`school_id`),
+  CONSTRAINT `FK_82150A0DC32A47EE` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `package_address`
+--
+
+LOCK TABLES `package_address` WRITE;
+/*!40000 ALTER TABLE `package_address` DISABLE KEYS */;
+INSERT INTO `package_address` VALUES (1,1,'东一区');
+/*!40000 ALTER TABLE `package_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `school`
 --
 
@@ -41,7 +68,7 @@ CREATE TABLE `school` (
 
 LOCK TABLES `school` WRITE;
 /*!40000 ALTER TABLE `school` DISABLE KEYS */;
-INSERT INTO `school` VALUES (1,11,'浙江大学玉泉校区',0.10,0,0.15),(2,11,'同济大学嘉定校区',0.20,NULL,0.30),(3,13,'重庆大学',0.25,1,0.30),(4,13,'四川大学',0.20,NULL,0.30),(5,14,'浙江师范大学',0.20,NULL,0.30);
+INSERT INTO `school` VALUES (1,11,'浙江大学玉泉校区',0.10,0,0.15),(2,11,'同济大学嘉定校区',0.20,NULL,0.33),(3,13,'重庆大学',0.25,1,0.30),(4,13,'四川大学1',0.20,NULL,0.10),(5,14,'浙江师范大学',0.20,NULL,0.30);
 /*!40000 ALTER TABLE `school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +98,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-04-26 16:37:29',NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-04-26 03:25:39',NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵'),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-04-26 17:27:05','小李'),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-04-26 13:18:49',NULL),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52',NULL);
+INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-04-26 19:24:09',NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-04-27 02:45:42',NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵'),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-04-26 19:26:40','小李'),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-04-26 23:21:32',NULL),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52','张');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -84,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-26 17:28:13
+-- Dump completed on 2020-04-27 11:21:53

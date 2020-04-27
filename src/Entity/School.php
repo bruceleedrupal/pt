@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -58,10 +60,16 @@ class School
      */
     private $assistantCommission;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PackageAddress", mappedBy="school")
+     */
+    private $packageAddresses;
+
 
     public function __construct(){
         $this->commission = 0.2;
         $this->assistantCommission = 0.3;
+        $this->packageAddresses = new ArrayCollection();
 
    }
 
@@ -126,6 +134,37 @@ class School
     public function setAssistantCommission(string $assistantCommission): self
     {
         $this->assistantCommission = $assistantCommission;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PackageAddress[]
+     */
+    public function getPackageAddresses(): Collection
+    {
+        return $this->packageAddresses;
+    }
+
+    public function addPackageAddress(PackageAddress $packageAddress): self
+    {
+        if (!$this->packageAddresses->contains($packageAddress)) {
+            $this->packageAddresses[] = $packageAddress;
+            $packageAddress->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackageAddress(PackageAddress $packageAddress): self
+    {
+        if ($this->packageAddresses->contains($packageAddress)) {
+            $this->packageAddresses->removeElement($packageAddress);
+            // set the owning side to null (unless already changed)
+            if ($packageAddress->getSchool() === $this) {
+                $packageAddress->setSchool(null);
+            }
+        }
 
         return $this;
     }

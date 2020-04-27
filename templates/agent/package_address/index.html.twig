@@ -1,0 +1,32 @@
+{% extends 'agent/base.html.twig' %}
+
+{% set  title = '刨裹地点' %}
+
+{% block content %} 
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>                
+                <th>地点</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for package_address in package_addresses %}
+            <tr>                
+                <td>{{ package_address.title }}</td>
+                <td>                    
+                    <a href="{{ path('agent_package_address_edit', {'id': package_address.id}) }}" class='btn btn-info btn-xs'>修改</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">没有记录</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_package_address_new') }}" class="btn btn-success">添加</a>
+    </div>
+{% endblock %}

@@ -2,14 +2,17 @@
 namespace App\Menu;
 
 use Knp\Menu\FactoryInterface;
+use App\Service\SchoolSessionStorage;
 
 class MenuBuilder 
 {
     protected $factory;
+    private $schoolSessionStorage;
 
-    public function __construct(FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory,SchoolSessionStorage $schoolSessionStorage)
     {
         $this->factory = $factory;        
+        $this->schoolSessionStorage = $schoolSessionStorage;
     }
 
     public function adminMenu($options){        
@@ -111,6 +114,31 @@ class MenuBuilder
             ]        
             ),
         ]);
+
+
+        
+            $menu['school']->addChild('agent_package_address_index', [
+                'route' => 'agent_package_address_index' ,
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>包裹地点",
+                'linkAttributes'=>['class'=>'nav-link'],
+                'attributes'=>[
+                    'class'=>'nav-item',
+                ],
+                'extras' => array('safe_label' => true,
+                'routes' => [
+                    [
+                        'route' => 'agent_package_address_new'                    
+                    ],
+                    [
+                        'route' => 'agent_package_address_edit'                    
+                    ],
+                ]        
+                ),
+            ]);
+       
+
+
+        
         
         
         return $menu;

@@ -44,7 +44,7 @@ class SchoolSessionStorage
         $this->session->remove(self::SCHOOL_KEY_NAME);
     }
 
-    public function getSchoolById(): ?School
+    public function getSelectedSchool(): ?School
     {     
        if ($this->has()) {
             return $this->entityManager->getRepository('App\Entity\School')->findOneById($this->get());
@@ -66,6 +66,8 @@ class SchoolSessionStorage
     public function getValidSchools(){
         return $this->security->getUser()->getSchools();
     }
+
+    
 
     public function validateSchool(){
         $schoolId = $this->get();
