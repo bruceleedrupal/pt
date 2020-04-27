@@ -119,7 +119,7 @@ class MenuBuilder
         
             $menu['school']->addChild('agent_package_address_index', [
                 'route' => 'agent_package_address_index' ,
-                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>包裹地点",
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>快递点",
                 'linkAttributes'=>['class'=>'nav-link'],
                 'attributes'=>[
                     'class'=>'nav-item',
@@ -135,11 +135,27 @@ class MenuBuilder
                 ]        
                 ),
             ]);
+
+
+            $menu['school']->addChild('agent_receive_address_index', [
+                'route' => 'agent_receive_address_index' ,
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>接收点",
+                'linkAttributes'=>['class'=>'nav-link'],
+                'attributes'=>[
+                    'class'=>'nav-item',
+                ],
+                'extras' => array('safe_label' => true,
+                'routes' => [
+                    [
+                        'route' => 'agent_receive_address_new'                    
+                    ],
+                    [
+                        'route' => 'agent_receive_address_edit'                    
+                    ],
+                ]        
+                ),
+            ]);
        
-
-
-        
-        
         
         return $menu;
         

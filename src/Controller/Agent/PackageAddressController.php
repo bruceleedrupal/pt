@@ -29,6 +29,7 @@ class PackageAddressController extends AbstractController
      */
     public function index(PackageAddressRepository $packageAddressRepository): Response
     {
+        
         $school = $this->schoolSessionStorage->getSelectedSchool();
 
         $packageAddresses =  $packageAddressRepository->findBySchoolQueryBuilder($school)
@@ -37,6 +38,7 @@ class PackageAddressController extends AbstractController
 
         return $this->render('agent/package_address/index.html.twig', [
             'package_addresses' => $packageAddresses,
+            'school'=>$school,
         ]);
     }
 
@@ -45,11 +47,17 @@ class PackageAddressController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        
         $packageAddress = new PackageAddress();
         $form = $this->createForm(PackageAddressType::class, $packageAddress);
         $form->handleRequest($request);
         $school = $this->schoolSessionStorage->getSelectedSchool();
-
+         
+        if(!$school) {
+            $this->addFlash('warning','请在上方选择栏里选择所要管理的学校(校区)');
+           return $this->redirectToRoute('agent_package_address_index');
+        }
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -82,6 +90,8 @@ class PackageAddressController extends AbstractController
      */
     public function edit(Request $request, PackageAddress $packageAddress): Response
     {
+        $this->denyAccessUnlessGranted('edit',$packageAddress);
+
         $form = $this->createForm(PackageAddressType::class, $packageAddress);
         $form->handleRequest($request);       
 
@@ -108,6 +118,6 @@ class PackageAddressController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('package_address_index');
+        return $this->redirectToRoute('agent_package_address_index');
     }
 }

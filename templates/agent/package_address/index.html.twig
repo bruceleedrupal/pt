@@ -1,6 +1,6 @@
 {% extends 'agent/base.html.twig' %}
 
-{% set  title = '刨裹地点' %}
+{% set  title = '快递点' %}
 
 {% block content %} 
 <div class="table-responsive">
@@ -27,6 +27,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('agent_package_address_new') }}" class="btn btn-success">添加</a>
+    {% if  school %}<a href="{{ path('agent_package_address_new') }}" class="btn btn-success">添加</a> {% endif %}
     </div>
 {% endblock %}

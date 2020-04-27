@@ -1,0 +1,29 @@
+{% extends 'agent/base.html.twig' %}
+
+{% set  title ='接收点'  %}
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>                
+                <th>接收点</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for receive_address in receive_addresses %}
+            <tr>                
+                <td>{{ receive_address.title }}</td>
+                <td>                    
+                    <a href="{{ path('agent_receive_address_edit', {'id': receive_address.id}) }}" class="btn btn-info btn-sm">修改</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">无记录</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_receive_address_new') }}" class="btn btn-success">创建</a>
+{% endblock %}

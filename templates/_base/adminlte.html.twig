@@ -2,9 +2,6 @@
 {% import 'macros.html.twig' as macros %}
 {% block body %}
 <body class="hold-transition sidebar-mini layout-fixed back-page">
-{%  if app.session.flashbag.peekAll|length>0 %}         
-    {{ macros.messages() }} 
- {% endif %}
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -150,6 +147,9 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+  {%  if app.session.flashbag.peekAll|length>0 %}         
+    {{ macros.messages() }} 
+ {% endif %}
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
