@@ -25,5 +25,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('agent_receive_address_new') }}" class="btn btn-success">创建</a>
+    {% if school %} <a href="{{ path('agent_receive_address_new') }}" class="btn btn-success">创建</a> {% endif %}
 {% endblock %}

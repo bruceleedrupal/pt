@@ -30,14 +30,13 @@ class ReceiveAddressController extends AbstractController
      * @Route("/", name="agent_receive_address_index", methods={"GET"})
      */
    public function index(ReceiveAddressRepository $receiveAddressRepository): Response
-    {
-        $school = $this->schoolSessionStorage->getSelectedSchool();
-
+    {        
         $receiveAddresses =  $receiveAddressRepository->findBySchoolQueryBuilder($school)
         ->getQuery()->getResult();
 
         return $this->render('agent/receive_address/index.html.twig', [
-            'receive_addresses' => $receiveAddresses
+            'receive_addresses' => $receiveAddresses,
+            'school'=>$school
         ]);
     }
 

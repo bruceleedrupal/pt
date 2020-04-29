@@ -19,8 +19,7 @@ class AdminController extends AbstractController
 
     public function __construct(Security $security)
     {        
-        $this->security = $security;    
-        
+        $this->security = $security;                    
     }
 
     /**
@@ -28,6 +27,7 @@ class AdminController extends AbstractController
      */
     public function index()
     { 
+        
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
