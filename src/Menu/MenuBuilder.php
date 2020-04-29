@@ -155,6 +155,25 @@ class MenuBuilder
                 ]        
                 ),
             ]);
+
+            $menu['school']->addChild('agent_package_size_index', [
+                'route' => 'agent_package_size_index' ,
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>包裹类型",
+                'linkAttributes'=>['class'=>'nav-link'],
+                'attributes'=>[
+                    'class'=>'nav-item',
+                ],
+                'extras' => array('safe_label' => true,
+                'routes' => [
+                    [
+                        'route' => 'agent_package_size_new'                    
+                    ],
+                    [
+                        'route' => 'agent_package_size_edit'                    
+                    ],
+                ]        
+                ),
+            ]);
        
         
         return $menu;

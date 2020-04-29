@@ -31,6 +31,8 @@ class ReceiveAddressController extends AbstractController
      */
    public function index(ReceiveAddressRepository $receiveAddressRepository): Response
     {        
+        $school = $this->schoolSessionStorage->getSelectedSchool();
+        
         $receiveAddresses =  $receiveAddressRepository->findBySchoolQueryBuilder($school)
         ->getQuery()->getResult();
 

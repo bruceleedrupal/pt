@@ -70,12 +70,18 @@ class School
      */
     private $receiveAddresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PackageSize", mappedBy="school")
+     */
+    private $packageSizes;
+
 
     public function __construct(){
         $this->commission = 0.2;
         $this->assistantCommission = 0.3;
         $this->packageAddresses = new ArrayCollection();
         $this->receiveAddresses = new ArrayCollection();
+        $this->packageSizes = new ArrayCollection();
 
    }
 
@@ -200,6 +206,37 @@ class School
             // set the owning side to null (unless already changed)
             if ($receiveAddress->getSchool() === $this) {
                 $receiveAddress->setSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PackageSize[]
+     */
+    public function getPackageSizes(): Collection
+    {
+        return $this->packageSizes;
+    }
+
+    public function addPackageSize(PackageSize $packageSize): self
+    {
+        if (!$this->packageSizes->contains($packageSize)) {
+            $this->packageSizes[] = $packageSize;
+            $packageSize->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackageSize(PackageSize $packageSize): self
+    {
+        if ($this->packageSizes->contains($packageSize)) {
+            $this->packageSizes->removeElement($packageSize);
+            // set the owning side to null (unless already changed)
+            if ($packageSize->getSchool() === $this) {
+                $packageSize->setSchool(null);
             }
         }
 
