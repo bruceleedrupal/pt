@@ -13,6 +13,7 @@ class PackageAddressType extends AbstractType
     {
         $builder
          ->add('title',NULL,[
+            'label'=>'地点',
          'attr'=>[
           'class'=>'form-control'
          ]

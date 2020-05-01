@@ -13,9 +13,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('note',NULL,[
-                'attr'=>[
-                    'class'=>'form-control'
-                ]
+                'label'=>'备注' ,
             ])
         ;
     }

@@ -119,7 +119,7 @@ class MenuBuilder
         
             $menu['school']->addChild('agent_package_address_index', [
                 'route' => 'agent_package_address_index' ,
-                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>快递点",
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>取件点",
                 'linkAttributes'=>['class'=>'nav-link'],
                 'attributes'=>[
                     'class'=>'nav-item',
@@ -139,7 +139,7 @@ class MenuBuilder
 
             $menu['school']->addChild('agent_receive_address_index', [
                 'route' => 'agent_receive_address_index' ,
-                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>接收点",
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>收货点",
                 'linkAttributes'=>['class'=>'nav-link'],
                 'attributes'=>[
                     'class'=>'nav-item',
@@ -158,7 +158,7 @@ class MenuBuilder
 
             $menu['school']->addChild('agent_package_size_index', [
                 'route' => 'agent_package_size_index' ,
-                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>包裹类型",
+                'label' => "<i class='nav-icon fa fa-circle nav-icon'></i>包裹规格",
                 'linkAttributes'=>['class'=>'nav-link'],
                 'attributes'=>[
                     'class'=>'nav-item',

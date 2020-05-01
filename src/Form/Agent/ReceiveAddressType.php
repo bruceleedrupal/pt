@@ -13,9 +13,7 @@ class ReceiveAddressType extends AbstractType
     {
         $builder
 	->add('title',NULL,[
-	  'attr'=>[
-	  'class'=>'form-control'
-	  ]
+         'label'=>'地点'
         ]);
     }
 

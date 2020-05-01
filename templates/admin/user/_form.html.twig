@@ -4,11 +4,8 @@
               <!-- form start -->
               {{ macros.formErrors(form) }} 
               {{ form_start(form) }}
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="school_title">备注名</label>
-                    {{ form_widget(form.note) }}
-                  </div> 
+                <div class="card-body">                  
+                    {{ form_widget(form) }}                  
                 </div>
                 <!-- /.card-body -->
 

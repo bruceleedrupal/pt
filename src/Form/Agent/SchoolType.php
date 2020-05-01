@@ -14,15 +14,15 @@ class SchoolType extends AbstractType
     {
         $builder
             ->add('title',NULL,[            
-            "attr"=>[
-                'class'=>'form-control',
+            'label'=>'名称',
+            "attr"=>[                
                 'placeHolder'=>'有多个校区请加上校区'
              ]
             ])
             ->add('assistantCommission',NumberType::class,[            
                 "html5"=>true,
-                "attr"=>[                    
-                    'class'=>'form-control',            
+                'label'=>'骑手佣金',
+                "attr"=>[                                        
                     'step'=>0.01,
                     'min'=>0.1,
                     'max'=>0.9

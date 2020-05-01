@@ -13,14 +13,10 @@ class PackageSizeType extends AbstractType
     {
         $builder
          ->add('title',NULL,[
-         'attr'=>[
-          'class'=>'form-control'
-         ]
+            'label'=>'规格'
         ])
         ->add('price',NULL,[
-            'attr'=>[
-             'class'=>'form-control'
-            ]
+            'label'=>'价格'
            ])
         ;
     }

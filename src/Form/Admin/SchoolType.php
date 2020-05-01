@@ -17,27 +17,25 @@ class SchoolType  extends AbstractType
         parent::buildForm($builder,$options);
         $builder   
            ->add('title',NULL,[            
-            "attr"=>[
-                'class'=>'form-control',
+            'label'=>'学校(校区)'  ,
+            "attr"=>[                
                 'placeHolder'=>'有多个校区请加上校区'
              ]
             ])         
              ->add('commission',NumberType::class,[
+                'label'=>'佣金',
                 "html5"=>true,
-                "attr"=>[                    
-                    'class'=>'form-control',            
+                "attr"=>[                                        
                     'step'=>0.01,
                     'min'=>0.1,
                     'max'=>0.5                    
                  ]
             ]) 
             ->add('status',ChoiceType::class,[
+                'label'=>'状态'  ,
                 'choices'  =>[
                    '待审核' => false,
                    '已审核' => true,
-                ],
-                'attr'=>[
-                    'class'=>'form-control',
                 ]
             ])
             
