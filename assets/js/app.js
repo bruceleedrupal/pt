@@ -9,6 +9,9 @@
 import '../scss/app.scss';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
+
+
+
 require('bootstrap');
 require('admin-lte');
 require('admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js');

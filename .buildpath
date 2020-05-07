@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="config"/>
+	<buildpathentry kind="src" path="public"/>
+	<buildpathentry kind="src" path="src"/>
+	<buildpathentry kind="src" path="tests"/>
+	<buildpathentry kind="src" path="var/cache/dev"/>
+	<buildpathentry kind="src" path="vendor"/>
+	<buildpathentry kind="lib" path="node_modules/admin-lte/plugins/summernote/summernote-0.8.16-dist.zip"/>
+	<buildpathentry kind="lib" path="node_modules/summernote/dist/summernote-0.8.16-dist.zip"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>
