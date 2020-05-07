@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.30, for Linux (x86_64)
 --
 -- Host: localhost    Database: pt
 -- ------------------------------------------------------
--- Server version	5.7.29-0ubuntu0.18.04.1
+-- Server version	5.7.30-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,7 +57,7 @@ CREATE TABLE `package_size` (
   PRIMARY KEY (`id`),
   KEY `IDX_4C8D41A2C32A47EE` (`school_id`),
   CONSTRAINT `FK_4C8D41A2C32A47EE` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `package_size` (
 
 LOCK TABLES `package_size` WRITE;
 /*!40000 ALTER TABLE `package_size` DISABLE KEYS */;
-INSERT INTO `package_size` VALUES (1,'小包',2.0,1),(2,'中包',3.0,1);
+INSERT INTO `package_size` VALUES (1,'小包',2.0,1),(2,'中包',3.0,1),(3,'大包',4.0,1),(4,'大件',2.0,4),(5,'爱民区',5.0,3);
 /*!40000 ALTER TABLE `package_size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-04-28 09:23:55',NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-04-28 16:03:35',NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵'),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-04-29 17:03:20','小李'),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-04-29 07:53:00',NULL),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52','张');
+INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-05-07 14:21:40',NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-05-05 22:11:19',NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵'),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-04-29 18:40:15','小李'),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-05-07 12:17:07','陈晓'),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52','张');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -166,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-29 17:12:15
+-- Dump completed on 2020-05-07 16:58:35
