@@ -8,6 +8,7 @@
       </li>      
     </ul>
        {{ render(controller('App\\Controller\\SchoolSessionController::selectBlock')) }}
+       {{ render(controller('App\\Controller\\WechatController::authUrlBlock')) }}
 {% endblock %}
 {% block sidebar %}
           {{ knp_menu_render('agent_menu') }}
