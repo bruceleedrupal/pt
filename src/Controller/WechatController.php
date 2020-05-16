@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use EasyWeChat\Factory;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
+use App\Entity\WechatOfficial;
 
 
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
@@ -72,14 +73,13 @@ class WechatController extends AbstractController
     	$url = $this->openPlatform->getPreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
     	$url2 = $this->openPlatform->getMobilePreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
 
-    // $result=     $authorizer = $this->openPlatform->getAuthorizer('wx0be3bba47580b889');
+    $result=     $authorizer = $this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
        
-       $result = '';
-       //2020.05.08 16.04
+      
     
-       $app = $this->_get_officialAccount('wx5670756e5a2ed494', 'refreshtoken@@@gHGnCLwUG3-EIWIQ7OfDRgcz6Pxs7N3NYqw4NUtP3Xgf');
+       $app = $this->_get_officialAccount('wx5670756e5a2ed494', 'refreshtoken@@@nDKgLqX4pTpSXO6j9bWEu7YEVrBwsC5aH2_58eYMVNs');
     	
-       $authorizer =$this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
+      
   
     
      
@@ -111,7 +111,7 @@ class WechatController extends AbstractController
             'url' => $url,
             'url2'=>$url2,
             'result'=>$result,    
-            'authorizer'=>$authorizer,
+          
 	    //'authorizer'=>$authorizer,
             
         ]);
@@ -128,8 +128,27 @@ class WechatController extends AbstractController
         
         $authCode =$request->get('auth_code');      
         $response =  $this->openPlatform->handleAuthorize();
-    
-     dd($response);
+        
+        $authorization_info = $response['authorization_info'];
+        $authorizer_appid = $authorization_info['authorizer_appid'];
+        $authorizer_refresh_token = $authorization_info['authorizer_refresh_token'];
+        $func_info = $authorization_info['func_info'];
+        
+        dump($response);
+        
+        $user = $this->getUser();
+        $wechatOfficial = new WechatOfficial($authorizer_appid,$authorizer_refresh_token);
+        
+        $user->setWechatOfficial($wechatOfficial);       
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+       
+        
+        
+        
+        
        
         return $this->render('wechat/handleAuthorize.html.twig', [
             'param'=>$response,

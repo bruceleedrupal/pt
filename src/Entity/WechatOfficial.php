@@ -25,6 +25,11 @@ class WechatOfficial
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $refreshToken;
+    
+    public function __construct(string $appId,?string $refreshToken){
+        $this->appId = $appId;
+        $this->refreshToken = $refreshToken;
+    }
 
     public function getId(): ?int
     {
