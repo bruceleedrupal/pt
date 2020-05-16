@@ -61,6 +61,11 @@ class User implements UserInterface
      */
     private $note;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\WechatOfficial", cascade={"persist", "remove"})
+     */
+    private $wechatOfficial;
+
     public function __construct()
     {
         $this->schools = new ArrayCollection();
@@ -214,6 +219,18 @@ class User implements UserInterface
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getWechatOfficial(): ?WechatOfficial
+    {
+        return $this->wechatOfficial;
+    }
+
+    public function setWechatOfficial(?WechatOfficial $wechatOfficial): self
+    {
+        $this->wechatOfficial = $wechatOfficial;
 
         return $this;
     }

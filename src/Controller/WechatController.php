@@ -8,6 +8,7 @@ use EasyWeChat\OpenPlatform\Server\Guard;
 use Symfony\Component\HttpFoundation\Request;
 use EasyWeChat\Factory;
 use Pimple\Container;
+use Psr\Log\LoggerInterface;
 
 
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
@@ -32,14 +33,24 @@ class WechatController extends AbstractController
 
     private $mobileDetect;
     
-    public function __construct() {
+    private $logger;
+    
+    public function __construct(LoggerInterface $logger) {
     	$this->openPlatform= Factory::openPlatform($this->config); 
     	$this->mobileDetect = new \Mobile_Detect;
+    	$this->logger = $logger;    	
 	}
 
 
 	public function authUrlBlock(){
-	    $callbackUrl = 'https://pt.iixiao.cn/wechat/handleAuthorize';
+	    $callbackUrl = $this->generateUrl('handleAuthorize',[],0);
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	    
 	    $isMobile = $this->mobileDetect->isMobile();
 	    if($isMobile)
@@ -48,9 +59,7 @@ class WechatController extends AbstractController
 	        $authUrl = $this->openPlatform->getPreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
         return $this->render('wechat/authUrlBlock.html.twig', [
             'authUrl' => $authUrl            
-        ]);
-	        
-	          
+        ]);	          
 	}
 	
 	
@@ -58,23 +67,26 @@ class WechatController extends AbstractController
      * @Route("/", name="wechat")
      */
     public function wechat()
-    {
-
-        $callbackUrl = 'https://pt.iixiao.cn/wechat/handleAuthorize';
+    {       
+        $callbackUrl = $this->generateUrl('handleAuthorize');
     	$url = $this->openPlatform->getPreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
     	$url2 = $this->openPlatform->getMobilePreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
 
     // $result=     $authorizer = $this->openPlatform->getAuthorizer('wx0be3bba47580b889');
-    
-      
+       
+       $result = '';
        //2020.05.08 16.04
-    //  $app = $this->openPlatform->officialAccount('wx0be3bba47580b889', 'refreshtoken@@@riwDd3Bl-dFJE9_a8sWT44oyVoP0jXdE1x4bmeSSujc');
+    
+       $app = $this->_get_officialAccount('wx5670756e5a2ed494', 'refreshtoken@@@gHGnCLwUG3-EIWIQ7OfDRgcz6Pxs7N3NYqw4NUtP3Xgf');
+    	
+       $authorizer =$this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
   
     
      
 	 
 	  
-	//  $result = $app->user->list();
+	 
+	  //$result = $authorizers;
 	  /*
 	 $result =  $app->template_message->send([
         'touser' => 'oqYJP1c4pGo2Nl9dpTrZ0hZmfcoE',
@@ -98,7 +110,8 @@ class WechatController extends AbstractController
         return $this->render('wechat/index.html.twig', [
             'url' => $url,
             'url2'=>$url2,
-         //   'result'=>$result,          
+            'result'=>$result,    
+            'authorizer'=>$authorizer,
 	    //'authorizer'=>$authorizer,
             
         ]);
@@ -113,12 +126,10 @@ class WechatController extends AbstractController
     {
 
         
-        $authCode =$request->get('auth_code');
-      
-        
+        $authCode =$request->get('auth_code');      
         $response =  $this->openPlatform->handleAuthorize();
-
-     //   $response ='';
+    
+     dd($response);
        
         return $this->render('wechat/handleAuthorize.html.twig', [
             'param'=>$response,
@@ -133,21 +144,43 @@ class WechatController extends AbstractController
      */
     public function event()
     {
-      
+     $this->logger->info('Event called');
      $server = $this->openPlatform->server;
 
 
      $server->push(function ($message) {
+         $this->logger->info('EVENT_AUTHORIZED',$message);
       }, Guard::EVENT_AUTHORIZED);
 
      $server->push(function ($message) {
+         $this->logger->info('EVENT_UPDATE_AUTHORIZED',$message);
      }, Guard::EVENT_UPDATE_AUTHORIZED);
 
      $server->push(function ($message) {
+         $this->logger->info('EVENT_UNAUTHORIZED',$message);
      }, Guard::EVENT_UNAUTHORIZED);
 
      return $server->serve();
-
+    }
+    
+    private function _get_officialAccount($appId,$refreshToken){
+        $app = $this->openPlatform->officialAccount($appId,$refreshToken);    
+        try {
+            $result = $app->template_message->getIndustry();
+        }
+        catch(\Exception $e) {
+            $errorResponse = $e->formattedResponse;
+            if($errorResponse['errcode']==61023) {
+                $authorizer =$this->openPlatform->getAuthorizer($appId);
+                $app = $this->openPlatform->officialAccount($appId,$authorizer['authorization_info']['authorizer_refresh_token']);
+                //更新refreshToken
+                
+                return $app;
+            } else {
+                return NULL;
+            }
+        }
+        return $app;
     }
 
 }
