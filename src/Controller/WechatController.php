@@ -157,17 +157,9 @@ class WechatController extends AbstractController
      * @Route("/test", name="wechat_test")
      */
     public function test()    
-    {
-        $entityManager  = $this->getDoctrine()->getManager();
+    {        
         $appId = 'wx5670756e5a2ed494';
-        $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
-        if($wechatOfficial) {
-            $user = $wechatOfficial->getUser();             
-            $user->setWechatOfficial(NULL);
-            $entityManager->persist($user);
-            $entityManager->remove($wechatOfficial);
-            $entityManager->flush();
-        }
+        dd($this->wechatOfficeService->unAuthorize($appId));
         return new Response('ddd');
     }
 
@@ -189,18 +181,10 @@ class WechatController extends AbstractController
          $this->logger->info('EVENT_UPDATE_AUTHORIZED',$message);
      }, Guard::EVENT_UPDATE_AUTHORIZED);
 
-     $server->push(function ($message) use($entityManager) {
+         $server->push(function ($message)  {
          $this->logger->info('EVENT_UNAUTHORIZED',$message);
          $appId = $message['AuthorizerAppid'];
-         $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
-         if($wechatOfficial) {
-             $user = $wechatOfficial->getUser();
-             $user->setWechatOfficial(NULL);
-             $entityManager->persist($user);
-             $entityManager->remove($wechatOfficial);
-             $entityManager->flush();
-         }
-         
+         $this->wechatOfficeService->unAuthorize($appId);         
      }, Guard::EVENT_UNAUTHORIZED);
 
      return $server->serve();

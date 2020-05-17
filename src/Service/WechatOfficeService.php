@@ -19,15 +19,18 @@ class WechatOfficeService {
     
     private $openPlatform;
     
+    /**
+     * @var WechatOfficialRepository
+     */
+    private $wechatOfficialRepository;
     
     
-    
-    public function __construct(EntityManagerInterface $entityManager,Security $security)
+    public function __construct(EntityManagerInterface $entityManager,Security $security,WechatOfficialRepository $wechatOfficialRepository)
     {
         
         $this->entityManager = $entityManager;
         $this->security = $security;
-        
+        $this->wechatOfficialRepository = $wechatOfficialRepository;   
         
         $config = [
             'app_id'   => $_ENV['WECHAT_APP_ID'],
@@ -43,7 +46,7 @@ class WechatOfficeService {
     public function authorize($appId) {
         $user = $this->security->getUser();
         if($user->getWechatOfficial() && ($user->getWechatOfficial()->getAppId() == $appId) ){
-            return;
+            return FALSE;
         }
         
         $authorizer = $this->openPlatform->getAuthorizer($appId);
@@ -70,5 +73,20 @@ class WechatOfficeService {
         
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+        return TRUE;
     }   
+    
+    
+    public function unAuthorize($appId){
+        $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
+        if($wechatOfficial) {
+            $user = $wechatOfficial->getUser();
+            $user->setWechatOfficial(NULL);
+            $this->entityManager->persist($user);
+            $this->entityManager->remove($wechatOfficial);
+            $this->entityManager->flush();
+            return TRUE;
+        }
+        return FALSE;
+    }
 }
