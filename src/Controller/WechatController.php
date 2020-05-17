@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyWeChat\OpenPlatform\Server\Guard;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use EasyWeChat\Factory;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
@@ -13,7 +14,8 @@ use App\Entity\WechatOfficial;
 
 
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
-
+use App\Repository\WechatOfficialRepository;
+use App\Service\WechatOfficeService;
 
 /**
  * @Route("/wechat")
@@ -36,10 +38,19 @@ class WechatController extends AbstractController
     
     private $logger;
     
-    public function __construct(LoggerInterface $logger) {
+    private $wechatOfficialRepository;
+    
+    private $entityManager;
+    
+    private $wechatOfficeService;
+    
+    public function __construct(LoggerInterface $logger,WechatOfficialRepository $wechatOfficialRepository,WechatOfficeService $wechatOfficeService) {
     	$this->openPlatform= Factory::openPlatform($this->config); 
     	$this->mobileDetect = new \Mobile_Detect;
     	$this->logger = $logger;    	
+    	$this->wechatOfficialRepository = $wechatOfficialRepository;
+    	$this->wechatOfficeService = $wechatOfficeService;
+    	
 	}
 
 
@@ -73,9 +84,9 @@ class WechatController extends AbstractController
     	$url = $this->openPlatform->getPreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
     	$url2 = $this->openPlatform->getMobilePreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
 
-    $result=     $authorizer = $this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
+        $result=     $authorizer = $this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
        
-      
+   
     
        $app = $this->_get_officialAccount('wx5670756e5a2ed494', 'refreshtoken@@@nDKgLqX4pTpSXO6j9bWEu7YEVrBwsC5aH2_58eYMVNs');
     	
@@ -130,25 +141,11 @@ class WechatController extends AbstractController
         $response =  $this->openPlatform->handleAuthorize();
         
         $authorization_info = $response['authorization_info'];
-        $authorizer_appid = $authorization_info['authorizer_appid'];
-        $authorizer_refresh_token = $authorization_info['authorizer_refresh_token'];
-        $func_info = $authorization_info['func_info'];
         
-        dump($response);
+        $appId = $authorization_info['authorizer_appid'];
         
-        $user = $this->getUser();
-        $wechatOfficial = new WechatOfficial($authorizer_appid,$authorizer_refresh_token);
-        
-        $user->setWechatOfficial($wechatOfficial);       
-        
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->wechatOfficeService->authorize($appId);
        
-        
-        
-        
-        
        
         return $this->render('wechat/handleAuthorize.html.twig', [
             'param'=>$response,
@@ -156,6 +153,23 @@ class WechatController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/test", name="wechat_test")
+     */
+    public function test()    
+    {
+        $entityManager  = $this->getDoctrine()->getManager();
+        $appId = 'wx5670756e5a2ed494';
+        $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
+        if($wechatOfficial) {
+            $user = $wechatOfficial->getUser();             
+            $user->setWechatOfficial(NULL);
+            $entityManager->persist($user);
+            $entityManager->remove($wechatOfficial);
+            $entityManager->flush();
+        }
+        return new Response('ddd');
+    }
 
 
     /**
@@ -165,7 +179,7 @@ class WechatController extends AbstractController
     {
      $this->logger->info('Event called');
      $server = $this->openPlatform->server;
-
+     $entityManager = $this->getDoctrine()->getManager();
 
      $server->push(function ($message) {
          $this->logger->info('EVENT_AUTHORIZED',$message);
@@ -175,8 +189,18 @@ class WechatController extends AbstractController
          $this->logger->info('EVENT_UPDATE_AUTHORIZED',$message);
      }, Guard::EVENT_UPDATE_AUTHORIZED);
 
-     $server->push(function ($message) {
+     $server->push(function ($message) use($entityManager) {
          $this->logger->info('EVENT_UNAUTHORIZED',$message);
+         $appId = $message['AuthorizerAppid'];
+         $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
+         if($wechatOfficial) {
+             $user = $wechatOfficial->getUser();
+             $user->setWechatOfficial(NULL);
+             $entityManager->persist($user);
+             $entityManager->remove($wechatOfficial);
+             $entityManager->flush();
+         }
+         
      }, Guard::EVENT_UNAUTHORIZED);
 
      return $server->serve();

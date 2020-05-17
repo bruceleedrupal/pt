@@ -62,9 +62,10 @@ class User implements UserInterface
     private $note;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\WechatOfficial", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\WechatOfficial", inversedBy="user", cascade={"persist", "remove"})
      */
     private $wechatOfficial;
+
 
     public function __construct()
     {
@@ -234,6 +235,8 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 
     
 }

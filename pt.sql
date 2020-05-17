@@ -142,8 +142,11 @@ CREATE TABLE `user` (
   `created` datetime NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
+  `wechat_official_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_8D93D6493C7323E0` (`mobile`)
+  UNIQUE KEY `UNIQ_8D93D6493C7323E0` (`mobile`),
+  UNIQUE KEY `UNIQ_8D93D6495657B03B` (`wechat_official_id`),
+  CONSTRAINT `FK_8D93D6495657B03B` FOREIGN KEY (`wechat_official_id`) REFERENCES `wechat_official` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,8 +156,37 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-05-07 14:21:40',NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-05-05 22:11:19',NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵'),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-04-29 18:40:15','小李'),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-05-07 12:17:07','陈晓'),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52','张');
+INSERT INTO `user` VALUES (1,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$XOUN+LWxlebgZVcHiUcjLA$JwSJpc0eEpz/17Ij5zH6ZYAfj/04WfLuua8zHXC3mJw','18116381898','2020-04-01 00:00:00','2020-05-16 10:14:31',NULL,NULL),(2,'[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$voLaABQ0AW13as+S9AWcYA$Wj4dO7bShYxlLU2J2K1k+k38rBP1jvkl2IAefUJrj+g','15523536265','2020-04-15 00:00:00','2020-05-14 00:15:41',NULL,NULL),(3,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$4CUsQnlC+EAtrqxxP9l8kg$IDvIaLAVUCsCAAwMTLR4kUisySwWv8L/r8xW+QR54Lw','18575515171','2020-04-15 00:00:00','2020-04-23 02:40:24','赵',NULL),(11,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$eRkbssgo87cdB6eo5TZluQ$QMHqGl/Ml8SqUKevh/oMLHiDRWodNK5tMO++ej4cuPs','13586974554','2020-04-21 14:58:46','2020-05-17 09:45:37','小李',5),(12,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$1nL1hFglf5ZLuKTsUpHQTQ$fnWnN7x9ug4EwiON0ALuMKI6m3Q/XIbxHiIDiAuRsO4','17725854422','2020-04-21 19:44:19',NULL,NULL,NULL),(13,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$3BRZgx4sCoJqJvN/vFz54A$BhAXwGjsDamY1HP2JhhUkHnUjfucZ+xfbeaFdDBQM74','18575515172','2020-04-21 23:56:23','2020-05-14 00:16:05','陈晓',NULL),(14,'[\"ROLE_AGENT\"]','$argon2id$v=19$m=65536,t=4,p=1$I9fxYKiuxJ2wbgdVZbfJBQ$w2qYEunqWydArYhb7kQb+wCn2cbcYj3Kr4qDrHWRNMU','13586982831','2020-04-26 16:13:05','2020-04-26 17:26:52','张',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `wechat_official`
+--
+
+DROP TABLE IF EXISTS `wechat_official`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wechat_official` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `refresh_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `head_img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qr_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nick_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_E1D194AA7987212D` (`app_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wechat_official`
+--
+
+LOCK TABLES `wechat_official` WRITE;
+/*!40000 ALTER TABLE `wechat_official` DISABLE KEYS */;
+INSERT INTO `wechat_official` VALUES (5,'wx5670756e5a2ed494','refreshtoken@@@QYQ-IX7in26kcuNNQ7TdS8s7hJf4a90OAkXo0epqWuQ','http://wx.qlogo.cn/mmopen/qhjt5cxcSsURg5eyphr24gw5ibB1yhadgeupN4uMocJib98aU3ytWiaBExsQ6lMtASicHHYsh2eHmb1LgpuNiaIiawjcXjJmym4sBH/0','http://mmbiz.qpic.cn/mmbiz_jpg/CIg5WAbWok2MlI4Qibb8WI3UEYAaPJ0cXbG64FBLdVoQcwtn9vq078528XyDRZo75CIlN5soH9wc5CM7H6xuC0w/0','塑材网');
+/*!40000 ALTER TABLE `wechat_official` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -166,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-07 16:58:35
+-- Dump completed on 2020-05-17 11:00:29

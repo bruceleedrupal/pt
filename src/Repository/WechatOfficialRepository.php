@@ -36,15 +36,15 @@ class WechatOfficialRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?WechatOfficial
+    
+    public function findOneByAppId($value): ?WechatOfficial
     {
         return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
+            ->andWhere('w.appId = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }
