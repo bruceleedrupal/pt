@@ -84,16 +84,15 @@ class WechatController extends AbstractController
     	$url = $this->openPlatform->getPreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
     	$url2 = $this->openPlatform->getMobilePreAuthorizationUrl($callbackUrl); // 传入回调URI即可	
 
-        $result=     $authorizer = $this->openPlatform->getAuthorizer('wx5670756e5a2ed494');
-       
-   
-    
-       $app = $this->_get_officialAccount('wx5670756e5a2ed494', 'refreshtoken@@@nDKgLqX4pTpSXO6j9bWEu7YEVrBwsC5aH2_58eYMVNs');
-    	
       
-  
-    
-     
+    	$officialAccount = $this->wechatOfficialRepository->findOneByAppId('wx5670756e5a2ed494');
+    	
+    	$result ='';
+    	if($officialAccount) {
+    	   $app = $this->wechatOfficeService->getOfficialAccount($officialAccount->getAppId(), $officialAccount->getRefreshToken());
+       	   $result=$app->base->getValidIps();
+    	}
+    	//$result=$app->template_message->getIndustry();
 	 
 	  
 	 
@@ -121,7 +120,8 @@ class WechatController extends AbstractController
         return $this->render('wechat/index.html.twig', [
             'url' => $url,
             'url2'=>$url2,
-            'result'=>$result,    
+            'result'=>$result
+              
           
 	    //'authorizer'=>$authorizer,
             
@@ -171,7 +171,7 @@ class WechatController extends AbstractController
     {
      $this->logger->info('Event called');
      $server = $this->openPlatform->server;
-     $entityManager = $this->getDoctrine()->getManager();
+   
 
      $server->push(function ($message) {
          $this->logger->info('EVENT_AUTHORIZED',$message);
@@ -180,8 +180,8 @@ class WechatController extends AbstractController
      $server->push(function ($message) {
          $this->logger->info('EVENT_UPDATE_AUTHORIZED',$message);
      }, Guard::EVENT_UPDATE_AUTHORIZED);
-
-         $server->push(function ($message)  {
+     
+     $server->push(function ($message)  {
          $this->logger->info('EVENT_UNAUTHORIZED',$message);
          $appId = $message['AuthorizerAppid'];
          $this->wechatOfficeService->unAuthorize($appId);         

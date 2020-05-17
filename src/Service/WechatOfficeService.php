@@ -37,11 +37,39 @@ class WechatOfficeService {
             'secret'   => $_ENV['WECHAT_SECRET'],
             'token'    => $_ENV['WECHAT_TOKEN'],
             'aes_key'  => $_ENV['WECHAT_AES_KEY'],
-        ];
-        
+        ];        
       $this->openPlatform= Factory::openPlatform($config);      
     }
     
+    public function getOfficialAccount($appId,$refreshToken){        
+        $app = $this->openPlatform->officialAccount($appId,$refreshToken);         
+        try {
+            $result = $app->base->getValidIps();
+            if(isset($result['errcode']) && $result['errcode']==61007) {
+                $this->_removeUnAuthorized($appId);
+            }
+        }
+        catch(\Exception $e) {            
+            $errorResponse = $e->formattedResponse;
+            if($errorResponse['errcode']==61023) {//refreshToken过期
+                $authorizer =$this->openPlatform->getAuthorizer($appId);
+                $authorizer_refresh_token = $authorizer['authorization_info']['authorizer_refresh_token'];
+                $app = $this->openPlatform->officialAccount($appId,$authorizer_refresh_token);
+                //更新refreshToken
+                $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
+                $wechatOfficial->setRefreshToken($authorizer_refresh_token);
+                $this->entityManager->flush();
+                
+                return $app;
+            } elseif($errorResponse['errcode']==61003) { //component is not authorized by this account hint
+                $this->_removeUnAuthorized($appId);
+                return NULL;
+            } else {
+                return NULL;
+            }
+        }
+        return $app;
+    }
    
     public function authorize($appId) {
         $user = $this->security->getUser();
@@ -88,5 +116,19 @@ class WechatOfficeService {
             return TRUE;
         }
         return FALSE;
+    }
+    
+    
+    private function _removeUnAuthorized($appId){
+        $wechatOfficial = $this->wechatOfficialRepository->findOneByAppId($appId);
+        if($wechatOfficial) {
+            $user = $wechatOfficial->getUser();
+            $user->setWechatOfficial(NULL);
+            $this->entityManager->persist($user);
+            $this->entityManager->remove($wechatOfficial);
+            $this->entityManager->flush();
+            return TRUE;
+        }
+        else return FALSE;
     }
 }
